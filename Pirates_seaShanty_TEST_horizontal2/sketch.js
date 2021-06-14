@@ -98,9 +98,9 @@ function draw() {
     rm.addText("e- \ e. \ e: \ e, e, \ e \ e");
 
   rmResponse = RiTa.markov(2);
-    // rmResponse.addText(": Run the speech \ : Run the ship \ : Run the song \ : Run the seas \ : Run the browsers, \ : Run the networks, \ : Run the decks \ : Run the code \ : Run the night");
-    // rmResponse.addText("choir --> chorus \b\pirates --> crew \b\ browsers --> web \b\ sites --> gatherings \b\ ");
-    // rmResponse.addText("line(horizon, x, y) \b\ location(x, y) \b\ crew++;\b\ text(sing, sing) \b\  ;  ;  \b\ ");
+    rmResponse.addText(": Run the speech \ : Run the ship \ : Run the song \ : Run the seas \ : Run the browsers, \ : Run the networks, \ : Run the decks \ : Run the code \ : Run the night");
+    rmResponse.addText("choir --> chorus \b\pirates --> crew \b\ browsers --> web \b\ sites --> gatherings \b\ ");
+    rmResponse.addText("line(horizon, x, y) \b\ location(x, y) \b\ crew++;\b\ text(sing, sing) \b\  ;  ;  \b\ ");
     rmResponse.addText("To deal in possibility \To deal in probability");
     rmResponse.addText("plane, \ field, \ space, \ margins, \ page, \ locale, \ dimension, \ canvas, \ bounds, \ territory, \ arena, \ realm, \ theatre, \ scene, \ domain, \ zone, \ ground, \ SITE, \ haunt, \ haunting, \ multiplicity, \ plural, ");
     rmResponse.addText(" bounds(); \ edge(); \ limits(); \ periphery(); \ beyond(); \ threshold(); \ site(); ");
