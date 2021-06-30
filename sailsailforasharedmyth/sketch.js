@@ -173,11 +173,6 @@ var sketchTop = function(p) {
 
   }
 
-  //mousePressed WITHIN top sketch
-  p.topClick = function() {
-    //console.log('topCLik');
-  }
-
 }
 
 //creating an INSTANCE of the top canvas
@@ -202,12 +197,15 @@ let mapVoiceSpeed;
 
 //MIC listen, wave variables & array
 let mic;
-let start = 200;
-let increment = 0.01;
+let start = 20;
+let increment = 0.001;
 let xOff, mapMouseSpeed;
+let mapMouseSpeed2;
 let soundLevel = 0;
 let soundLevelMapped;
 let soundHistory = [];
+let noiseMultiply = 0;
+let waveFrameRate = 5;
 
 //quadrant checks
 let onGrid = false;
@@ -240,10 +238,7 @@ let columnHeight;
 let numRows;
 
 function preload() {
-  //ocean = loadSound("assets/szegvari__ship-ambient.wav");
-  //ocean = loadSound("assets/gkillhour_underwater-ocean-bubbling.wav");
   font2 = loadFont("assets/LTC Fournier Le Jeune W00 Reg copy.ttf");
-
 }
 
 //MAIN SKETCH: BOTTOM GRID, WILL CALL SPEECH AND TEXT AND SOUND HERE.
@@ -268,18 +263,12 @@ function setup() {
   responseVoice = new p5.Speech();
   responseVoice.setVoice("Karen");
   responseVoice.setPitch(0);
+
   mic = new p5.AudioIn();
   mic.start();
   osc = new p5.Oscillator();
   strokeCap(ROUND);
   t = new SpeechTokens();
-
-  //fill(255, 0, 255);
-  //textFont(sketchTop.font2);
-
-  // button = createButton('Set Sail -->');
-  // button.position(10, height/2+50);
-  // button.mousePressed(screen2);
 
 }
 
@@ -308,6 +297,7 @@ function draw() {
   monoSynth = new p5.MonoSynth();
   monoSynth2 = new p5.MonoSynth();
 
+  voice.listVoices();
   //check where mouseY is
   //mouse is OUTSIDE the grid, web false, sea false
   if (mouseY<height/3*2-10) {
@@ -328,26 +318,19 @@ function draw() {
           web = false;
       }
   }
-  console.log("onGrid = "+onGrid)
-  //mapping wave with mic input and mousespeed
-  soundLevel = mic.getLevel();
-  soundLevelMapped = map(soundLevel, 0, 1, 0, 0.02);
-  soundHistory.push(int(soundLevelMapped));
-  mouseSpeed = dist(mouseX, mouseY, pmouseX, pmouseY);
-  mapMouseSpeed = 5+map(mouseSpeed, 0, width, 0, 5);
-  mapVoiceSpeed = map(mouseSpeed, 0, width, 0.5, 5);
-  increment = 0.001+soundLevelMapped;
 
   //drawing perlin noise + sound + mouseSpeed wave
+  soundLevel = mic.getLevel();
     push();
-      frameRate(5);
+      frameRate(waveFrameRate);
       fill(0);
       stroke(0);
-
       beginShape(TRIANGLE_STRIP);
+      //start = 0;
+
       xOff = start;
         for (let i=0; i<width; i++) {
-             vertex(i, noise(xOff)*180*mapMouseSpeed);
+             vertex(i, noise(xOff)*noiseMultiply*mapMouseSpeed);
              vertex(i, (height/3*2)-10);
              xOff += increment;
         }
@@ -358,6 +341,15 @@ function draw() {
 
 if (screen==1) {
     synthGrid();
+    soundLevelMapped = map(soundLevel, 0, 1, 0, 0.001);
+    soundHistory.push(int(soundLevelMapped));
+    mouseSpeed = dist(mouseX, mouseY, pmouseX, pmouseY);
+    mapMouseSpeed = 5+map(mouseSpeed, 0, width, 0, 1);
+    mapVoiceSpeed = map(mouseSpeed, 0, width, 0.5, 1);
+    increment = 0.001+soundLevelMapped;
+    noiseMultiply = 100;
+
+
     push();
       fill(0);
       stroke(0);
@@ -377,7 +369,7 @@ if (screen==1) {
         stroke(0);
         monoSynth2.amp(0.1);
         monoSynth2.play("C#4", 0.3, 0, 1);
-        //for if pressed, go to screen==2 see mouse released()
+        //for if pressed and progress screen 2 see mousePressed
     } else {
         monoSynth2.dispose();
         textSize(32);
@@ -393,6 +385,15 @@ if (screen==1) {
 } else if (screen==2) {
     t.display();
     synthGrid();
+    soundLevelMapped = map(soundLevel, 0, 1, 0, 0.05);
+    soundHistory.push(int(soundLevelMapped));
+    mouseSpeed = dist(mouseX, mouseY, pmouseX, pmouseY);
+    mapMouseSpeed = 5+map(mouseSpeed, 0, width, 0, 10);
+    mapVoiceSpeed = map(mouseSpeed, 0, width, 0.5, 1);
+    increment = 0.001+soundLevelMapped;
+    start = map(mapMouseSpeed, 5, 15, 70, 75);
+    waveFrameRate = 24;
+    noiseMultiply = map(mouseSpeed, 0, width, 50, 100);
 
     push();
       stroke(0);
@@ -421,19 +422,22 @@ if (screen==1) {
     // if statements and text for each eigth of the quadrant
     if (onGrid && web) {
         // WE ARE IN THE TOP ROW
-
         //assign markov text according to which eighth you're in
         //1(WEB, SONG)
-        if (mouseX<width/4){
-            rm.addText("Oscillator: ♫ \Oscillator: ♫♬ \Oscillator: ♯♩♫");
-            rmResponse.addText("bebopp bee bop \ Bop bop bop \ boop boop bOooOOOoopp");
+        if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX<width/4){
+            rm.addText("oscillate.....oscillate..... \ . . . . . . . \o-s-c-i-l-l-a-t-e");
+            rm.addText("Set frequency: ♫ \Set decay: ♫♬ \Decay, Decay, Decay: ? \ browser, thrums,,,, \Console, let's decay \Programme beebooop \Programme lyrics: ?\Programme Song: ?");
+
+            rmResponse.addText("bebopp bee bop \ Bop bop bop \ boop boop bOooOOOoopp \ Ooo OOO oopp Ooo OOO oopp");
           //2(WEB, SONG)
-        } else if (mouseX>width/4 && mouseX<width/2) {
-            rm.addText("Oscillator: ♫ \Oscillator: ♫♬ \Oscillator: ♯♩♫");
+        } else if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX>width/4 && mouseX<width/2) {
             rm.addText("bubbleBop \ bub bbub \ b b b ");
+            rm.addText("Sing Sing, to the fancies of the oscillators \Sing, Sing, in the browsers \ To pass the story round \A choir! A choir! \Sail, sail, 2nite! Sail, sail, 2nite! \Sing, Sing, for a shared world \Sing! We sing!");
+
+            rmResponse.addText("Sing \Sung \*ghostly tugging of the deep* \ voiceBox(); voiceBox(); \ Holler \ H-O-L-L-E-R");
             rmResponse.addText("bebopp bee bop \ Bop bop bop \ be beeee booobebeboboebOOP");
           //3(WEB, SPEECH)
-        } else if (mouseX>width/2 && mouseX<width/4*3) {
+        } else if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX>width/2 && mouseX<width/4*3) {
             rm.addText("HTML: seas \HTML: terrain \HTML: horizon \HTML: futures \ cybernetic chorus \cybernetic choir \digital myth \ browser:: utterance \ browser:: song \ browser:: connection");
             rm.addText("Smirk \ Smirk\ Smirk \ Smirk! \S-M-I-R-K ");
             rm.addText("lace-up; dial-up;\ up; up; \loop; loop; \ thru; thru; \'round; 'round; \calibrate; calibrate;\Looping; Looping;\LOOP; LOOP;\ L-A-C-E-U-P L-A-C-E-U-P \the rigging; the rigging;");
@@ -443,51 +447,54 @@ if (screen==1) {
             rmResponse.addText("connect \ con.net.ing \ con-nect-ting \ connnect \ co n net \connectconnect \ con...con... \ . . . ..web \ .web \ w.e.b. \ w-e-b \ ... \ w.w.w. \ www \ WWW \ W, W, W,\(web) \ {web} \ @webe- \ e. \ e: \ e, e, \ e \ e");
             rmResponse.addText("Threshold: (x, y)\ Threshold: horizon\ Threshold: skin\ Threshold: sea, sky,\ Threshold: radius\ Threshold: touch\Threshold: song\ Threshold: possibility\ Threshold: body");
           //4(WEB, SPEECH)
-        } else if (mouseX>width/4*3) {
-            rm.addText("Web trash, shiny mirages\ Pixel coins in Pixel chests\ Corrupted files and torrents buried \DOWNLOAD the filth! \DOWNLOAD the F-I-L-T-H! \DOWNLOAD the eyeliner! \DOWNLOAD the rotting carcass of mp3,4, \Or dvd rip rip rip rip bytes like paper! \Or dvd RIP RIP RIP RIP bytes like paper! \Then get the rascals! Scrubbing grimy hardrives... plucking mangled digital bones from clawed digital flesh! \Damn corrupt bits! Blending demo so demo sounds worse than the real demo! \Shiny, sparkling garbage, trawling thru the synths. \Turn me back into ASCII, I am growing weary.\Eeeeeeville. Online piracy's sick toothless grin \Simply ... Sick. \ ...Ahoy! ...Ahoy!");
+        } else if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX>width/4*3) {
+            console.log("4(WEB, SPEECH)");
+            console.log("webSpeechClick");
 
+            rm.addText("Web trash, shiny mirages\ Pixel coins in Pixel chests\ Corrupted files and torrents buried \DOWNLOAD the filth! \DOWNLOAD the F-I-L-T-H! \DOWNLOAD the eyeliner! \DOWNLOAD the rotting carcass of mp3,4, \Or dvd rip rip rip rip bytes like paper! \Or dvd RIP RIP RIP RIP bytes like paper! \Then get the rascals! Scrubbing grimy hardrives... plucking mangled digital bones from clawed digital flesh! \Damn corrupt bits! Blending demo so demo sounds worse than the real demo! \Shiny, sparkling garbage, trawling thru the synths. \Turn me back into ASCII, I am growing weary.\Eeeeeeville. Online piracy's sick toothless grin \Simply ... Sick. \ ...Ahoy! ...Ahoy! \U wouldn't steal a car...\ U wouldn't steal a handbag...");
             rm.addText("Practictioners of for loops and lace-up worlds \lace-up myths, lace-up bodices \laced-up thru opportunistic eyelets of HTML");
             rm.addText("lace-up; dial-up;\ up; up; \loop; loop; \ thru; thru; \'round; 'round; \calibrate; calibrate;\Looping; Looping;\LOOP; LOOP;\ L-A-C-E-U-P L-A-C-E-U-P \the rigging; the rigging;");
 
-            rmResponse.addText("Yearning for reworlding, \Sail to lace up these pixels, pixels, pixels\ File Corrupt Protocol is-->flirting over the cut and paste:: \File Transfer Protocol is-->yearning across time and space:: \ Web --> ENTER; Web --> ENTER; \Transfer heart emoticon, sailing, sailing. \Transfer --> we can offer billowing ruffled blouses, \We can deal in the dramatic brandishing of cutlasses \Speak to ‘Commandeer'!");
-
-            rmResponse.addText("The algorithm has spoilt! Cries of who thought… who thought... \ But look! Data, the data, is done for, poisoning the webfloor. \Rotting, rotting, swelling of the firewall. Swell out; out; out; out; \ We pirates, stinking lot of the cut and paste! We gather to enact the cut and paste! \The ACSII, fraying, fraying, glyphs decaying \There, there, spyglass to the spoils of the search engines ! ! ! \But, fickle is the roguish grin is the writing of this song \So, we calibrate again again again \We make for the swelling of RGB horizons \Download to the rigging, no, Upload to the rigging \decay! decay! decay!\ Ships, the pixel vessels that inch across the axes, inch across the webfloor \ Initialise rerouting \ initialise reworlding");
-
+            rmResponse.addText("Yearning for reworlding, \Sail to lace up these pixels, pixels, pixels\ File Corrupt Protocol is-->flirting over the cut and paste:: \File Transfer Protocol is-->yearning across time and space:: \ Web --> ENTER; Web --> ENTER; \Transfer heart emoticon, sailing, sailing. \Transfer --> we can offer billowing ruffled blouses, \We trade in the brandishing of cutlasses \Speak to ‘Commandeer'!");
+            rmResponse.addText("The algorithm has spoilt! Cries of who reeks… who reeks... \ But look! Data, the data, is done for, poisoning the webfloor. \Rotting, rotting, swelling of the firewall. Swell out; out; out; out; \ We pirates, stinking lot of the cut and paste! We gather to enact the cut and paste! \The ACSII, fraying, fraying, glyphs decaying \There, there, spyglass to the spoils of the search engines ! ! ! \But, fickle is the roguish grin is the writing of this song \So, we calibrate again again again \We make for the swelling of RGB horizons \Download to the rigging, no, Upload to the rigging \decay! decay! decay!\ Ships, the pixel vessels that inch across the axes, inch across the webfloor \ Initialise rerouting \ initialise reworlding");
+            rmResponse.addText("Pirates locate futures, (x, y) \Where clink clink coins are piled up in deep chrome clouds \Spinning on axes, accounts draining,\ Bandied pirates together locate X in web of code \Buyers download coins to wallet \Pirates! (money, money, money, treasure, treasure) \Clink, Clink, Clink \ Pirates! Let's be fraudulent. ");
             rmResponse.addText("choir --> chorus \b\pirates --> crew \b\ browsers --> web \b\ sites --> gatherings \song --> myth \b\"line(horizon, x, y) \b\ location(x, y) \b\ crew++;\b\ text(sing, sing) \b\  ;  ;  \b\ flirt(with );\ decay( , , ); ");
             rmResponse.addText("Threshold: (x, y)\ Threshold: horizon\ Threshold: skin\ Threshold: sea, sky,\ Threshold: radius\ Threshold: touch\Threshold: song\ Threshold: possibility\ Threshold: body");
         }
 
     } else if (onGrid && sea) {
         // WE ARE IN THE BOTTOM ROW
+         //check p-EIGHTHS
+         //5(SEA, SONG)
+         if (mouseY>height/6*5 && mouseX<width/4){
+              rm.addText("Synthesise -->\ Hover, Hover \ Browser --> instrument \ hover --> pentatonic song \ --> --> --> ");
+              rmResponse.addText("la ah laaa laaa \ Minor Synth in Pentatonic Scale: A-C-D-E-G-A \ A, C, D, E, G, A \ la, la, la, la, la");
 
-        //check p-EIGHTHS
-        //5(SEA, SONG)
-        if (mouseX<width/4){
-              rm.addText("Synth: ♫ \Synth: ♫♬ \Synth: ♯♩♫\ Hover for pentatonic song");
-              rmResponse.addText("la ah laaa laaa \ Minor Synth: A-C-D-E-G-A");
             //6(SEA, SONG)
-          } else if (mouseX>width/4 && mouseX<width/2) {
-              rm.addText("Move to compose\ Ooh Ooh Ooh \ Synth, ");
+          } else if (mouseY>height/6*5 && mouseX>width/4 && mouseX<width/2) {
+              rm.addText("Move --> compose\ Ooh Ooh Ooh \ Synth,  ");
               rm.addText("♫♪♬ \♫♪♬ \♯♩♫♫♮\♩♫♫♭♩♫♫");
+              rm.addText("Sing \Crow \Wail \waaaaail, waaaaail \ H-O-L-L-E-R");
+              rmResponse.addText("Sing, sing, for a shared myth \A choir! A choir! \A HOLLER! A HOLLER! \ You; H-O-L-L-E-R! You; H-O-L-L-E-R! \Sail, sail, 2nite! Sail, sail, 2nite! \2nite 2nite 2nite \Sing, Sing, for a shared world \Sing! We sing!\ Sing! You! A chanteuse,");
               rmResponse.addText("la la laaah la la \ OOoooooOOOh OOoohhoohhh \ oooohoooh ho ho\ daadaaa da da da\ aaaAAhha, a, a, a");
             //7(SEA, SPEECH)
-          } else if (mouseX>width/2 && mouseX<width/4*3) {
-              rm.addText("Where s = sea \Where s = sail \ Where s = scurvy\ Where s = scum \Where s = speak \ Where s = song \So s = sea \So s = sail \ So s = scurvy\ So s = squeal \So s = see \ So s = scroll \Such that s = shout \Such that s = sword \ Such that s = siren\ Such that s = spit \Such that s = soup \ Such that s = seafarer \Such that s = SOS");
-              rm.addText("A larynx’s offerings o song \A larynx’s offering o stories \A larynx’s offering o pleasure \ A larynx’s offering o reworlding");
+          } else if (mouseY>height/6*5 && mouseX>width/2 && mouseX<width/4*3) {
+              rm.addText("-->-->-->--> sibilance\ --> --> --> \--> --> --> --> --> --> --> --> --> \  Sibilance, Sibilance, Sibilance \ Spit, Spit Spit \--> scum --> scull \--> silence --> scurvy\--> sonorous --> scum \--> sweet --> scry\ --> scrounge --> seaborne \--> strange --> scurvy\--> seaward --> squeal \--> scrummage --> scroll \--> spit --> spit \--> spit --> spit \--> spit --> spit \--> sorrow --> SOS \--> shifting --> shiny \--> sick --> sightline \--> sigh --> signet \--> silver --> similacrum \--> similtaneous --> sinewed \--> sine --> smattering \--> smithereens --> smoke \--> smashing --> smitten \--> swooning --> spillage \--> stab --> squelch \ > silver > similacrum \ ! sweep ! sail ! \--> (scavenge) --> (scuffle)");
+              rm.addText("Gather at x . \ Gather in the . \Gather at xx:xx. \Gather , \Gather , \Gathering, 2nite. \Gathering, the songs . \Gathering, the words. \Find x, Found x. \Lace up X. \nite nite nite");
 
-              rmResponse.addText("Our communion with the swelling of speech. \Our labour is the sea and sky. \Our ship is the vessel of the threshold \ Our survival is hard hot pink futures.\Our ship sails into Hard Hot Pink Futures. \Raging, raging, of the Hot Pink ");
-              rmResponse.addText("Gather at x . \ Gather in the . \Gather at xx:xx. \Gather , \Gather , \Gathering, 2nite. \Gathering, the songs . \Gathering, the words. \Find x, Found x. \Lace up X. ");
+              rmResponse.addText("Our communion \The swelling of speech. \The sea and sky, for they are flirting \Our ship is the vessel of the threshold \ Survival is in the hard hot pink futures.\For our ship sails into Hard Hot Pink Futures. \Raging, raging, of the Hot Pink \The pure dimensionality of H-O-T-N-E-S-S \These axes, Our anchor \Sound the wind! Out out out with the momentum of this speech! \Find communion within magenta! For there... there is our X! \Sink...into the rancid deep of hot hot pink... \Find a knife edge when you teeter at the axis, \Past the horizon is the Hot Pink. ");
+              rmResponse.addText("Gather at x . \ Gather in the . \Gather at xx:xx. \Gather , \Gather , \Gathering, 2nite. \Gathering, the songs . \Gathering, the words. \Find x, Found x. \Lace up X. \nite nite nite");
             //8(SEA, SPEECH)
-          } else if (mouseX>width/4*3) {
-              rm.addText("Engineering a chorus for cross my heart survival, \song notes to sail us out out out. \Generating lore to power a web \Deal in the wording of our world \Shiver, Shiver, at the thresholds of possibility. \Sail to the dawn edges of the browser, out of reach of known horizons. \Sail to gather in the unknown terrains");
-              rm.addText("Flirt, smirk, thru the eyelets and skin \ Lacing up touch and longing \Flirt, flirt, with thine own unbridled future \ Press upon this sea floor synth-pad \Find me a dagger \To the throat of the threshold \Surface skin tension against the blade");
+          } else if (mouseY>height/6*5 && mouseX>width/4*3) {
+              rm.addText("Engineering:Chorus \Cross My Heart Survival, \Choral gumption --> sail us --> --> --> \Generating lore --> power a web \The wording of our world \Shiver, Shiver, Shiver, at the thresholds of possibility. \Sail --> the dawn edges of the browser, out of reach of known horizons. \Sail --> gather --> the beyond terrains \Find x in the dawning of the world \, SWELLS! \Bodies --> be sailed; Bodies --> be soiled; \Cross my heart with the axis of the deep \Rougish grins that know, that know, that know");
+              rm.addText("Strategise is to flirt, smirk, thru the eyelets and skin, \ Lacing up longing, and longing, \The flirting with exponential futures... we swoon, we swoon, we swoon, \ Press upon this sea floor synth-pad \To the calling calling calling of the synths, \Find me a dagger, \To the throat of the threshold, \Surface skin tension against the blade, \Swinging cutlasses for the singing of the blade when it meets another; it knows its equal \Scrub, scrub scrub scrub our souls! \Then the decks! \Yearning, for a choir to sing together a myth, \Yearning, it lies on an exponential curve \My, My, My, this stench of nonlinearity... Will not do, Will not do...\Thrill, thrill, thrill in the multiplying of the odds \See, see, the seas possess their own yearning;");
 
-              rmResponse.addText("Smirk \ Smirk\ Smirk \Smirk \Smirk \ Smirk! ");
-              rmResponse.addText("Black and Hot Pink for a combo that steals into the night, \ For speak borne of the web, Uncharted, Uncharted. \Lace lace together black sails and hot pink rigging for a New Bastard Myth. \Scrub our souls \Pixelate, Corrupt, SkullScrub, Crossbones,");
-              rmResponse.addText("\in communion with the sea and sky \ constant; boundary line, surface tension, tangent, skin \ these margins, these boundaries, liminal possibilities \labour is the collaborative wording \ labour is the collaborating worlding \ worlding, the myth making, the imagining, the singing, the writing \ negotiating —> rigging, contingency planes \ material agents of the threshold \ negotiating as collective practice... \ ...lacing/unlacing...rigging/rigging...worlding / reworlding");
+              rmResponse.addText("Smirk \Smirk \Smirk \Smirk \Smirk \Smirk! \Steal; \Steal \Steal! Steal! \Steal, Smirk, ");
+              rmResponse.addText("Rotten is the linear path \ Rancid carcass of that which does not float \ Black and Hot Pink for a combo that steals into the nite, \ For speak borne of the deep, Uncharted, Uncharted. \Lace lace together black sails and hot pink rigging for a New Bastard Myth. \Rascals of this assemblage \My crew, My crew. \The circumference, it thrums, it thrums \ We located chance in the cavity of the sky, \For the cumulative circumference \Do you hear the yearning of the seas? \Architects of the lacing ");
+              rmResponse.addText("\In communion for the vowels and constanants \ Find, Find, the constant; boundary line, surface tension, tangent, skin \ these those margins, these those boundaries, these those liminal possibilities \See that labour is the collaborative wording, worlding \ worlding, myth making, imagining, singing, writing \, negotiating —> rigging, contingency commands for \The material agents of the threshold \, the FOOLS! , the FOOLS! \, negotiating as collective practice... \ ...lacing --> ...unlacing \ rigging --> rigging \ worlding --> reworlding \Join us, for we are in collaboration with desire");
           }
       }
-  }
+    }
 
 }
 
@@ -625,30 +632,6 @@ pop();
 
 }
 
-function mouseReleased() {
-  //SAIL AND BACK BUTTON EXECUTE COMMANDS: screen +/-, reset top width
-  //rect(width/2, )
-  if (screen==1) {
-    if (mouseX>width/2 && mouseX<width/2+250 && mouseY>5 &&mouseY<40) {
-        screen=2;
-        sketchTop.screen1=false;
-        sketchTop.screen2=true;
-        sketchTop.resizeCanvas(sketchTop.width, sketchTop.height);
-        sketchTop.UserEnter = true;
-    } else {
-      screen=1;
-      sketchTop.screen2=false;
-      sketchTop.screen1=true;
-    }
-  }
-}
-
-//refresh --> back to shore
-function restart() {
-  console.log("restart");
-  window.location.reload();
-}
-
 function mouseBottom() {
     //sort this out
     userStartAudio();
@@ -659,6 +642,19 @@ function mouseBottom() {
     console.log("CLICK");
 
 if (screen==1){
+  //set Sail button to progress to screen 2
+  if (mouseX>width/2 && mouseX<width/2+250 && mouseY>5 &&mouseY<40) {
+      screen=2;
+      sketchTop.screen1=false;
+      sketchTop.screen2=true;
+      sketchTop.resizeCanvas(sketchTop.width, sketchTop.height);
+      sketchTop.UserEnter = true;
+  } else {
+    screen=1;
+    sketchTop.screen2=false;
+    sketchTop.screen1=true;
+  }
+
 } else if (screen==2) {
     sketchTop.UserEnter = false;
     //grow canvas on every new call and response pair
@@ -739,7 +735,6 @@ if (screen==1){
                     sketchTop.webSeaResponseGenerated.push("(Sea, Speech): ");
                   }
               }
-
         }
 
       //changing speed for singing beebopps
@@ -754,7 +749,11 @@ if (screen==1){
           //generate call
           voice.cancel();
           voice.setRate(1);
-          sentences = rm.generate(1, {temperature:500, minLength:10, maxLength: 100, allowDuplicates:false});
+          if (webSongClick || seaSongClick) {
+            sentences = rm.generate(1, {temperature:100, minLength:0, maxLength: 50, allowDuplicates:true});
+          } else {
+            sentences = rm.generate(1, {temperature:100, minLength:10, maxLength: 100, allowDuplicates:false});
+          }
           voice.speak(sentences);
           sketchTop.callGenerated.push(sentences);
           currentTokenise.push(RiTa.tokenize(sentences[0]));
@@ -764,7 +763,11 @@ if (screen==1){
           //generate response
           responseVoice.cancel();
           responseVoice.setRate(1);
-          response = rmResponse.generate(1, {temperature:500, minLength:10, maxLength: 100, allowDuplicates:false});
+          if (webSongClick || seaSongClick) {
+            response = rmResponse.generate(1, {temperature:100, minLength:0, maxLength: 50, allowDuplicates:true});
+          } else {
+            response = rmResponse.generate(1, {temperature:100, minLength:10, maxLength: 100, allowDuplicates:false});
+          }
           responseVoice.speak(response);
           sketchTop.responseGenerated.push(response);
           currentTokenise.push(RiTa.tokenize(response[0]));
@@ -889,8 +892,6 @@ class SpeechTokens {
       }
     }
 
-    //console.log(concordance[0]);
-    //console.log(concordance.concat([12]));
   }
 
 }
