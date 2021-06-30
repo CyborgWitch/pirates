@@ -392,7 +392,7 @@ if (screen==1) {
     mapVoiceSpeed = map(mouseSpeed, 0, width, 0.5, 1);
     increment = 0.001+soundLevelMapped;
     start = map(mapMouseSpeed, 5, 15, 70, 75);
-    waveFrameRate = 24;
+    waveFrameRate = 10;
     noiseMultiply = map(mouseSpeed, 0, width, 50, 100);
 
     push();
@@ -451,7 +451,7 @@ if (screen==1) {
             console.log("4(WEB, SPEECH)");
             console.log("webSpeechClick");
 
-            rm.addText("Web trash, shiny mirages\ Pixel coins in Pixel chests\ Corrupted files and torrents buried \DOWNLOAD the filth! \DOWNLOAD the F-I-L-T-H! \DOWNLOAD the eyeliner! \DOWNLOAD the rotting carcass of mp3,4, \Or dvd rip rip rip rip bytes like paper! \Or dvd RIP RIP RIP RIP bytes like paper! \Then get the rascals! Scrubbing grimy hardrives... plucking mangled digital bones from clawed digital flesh! \Damn corrupt bits! Blending demo so demo sounds worse than the real demo! \Shiny, sparkling garbage, trawling thru the synths. \Turn me back into ASCII, I am growing weary.\Eeeeeeville. Online piracy's sick toothless grin \Simply ... Sick. \ ...Ahoy! ...Ahoy! \U wouldn't steal a car...\ U wouldn't steal a handbag...");
+            rm.addText("Web trash, shiny mirages\ Pixel coins in Pixel chests\ Corrupted files and torrents buried \DOWNLOAD the filth! \For the Streams of the Filth \DOWNLOAD the F-I-L-T-H! \DOWNLOAD the eyeliner! \DOWNLOAD the rotting carcass of mp3,4, \Or dvd rip rip rip rip bytes like paper! \Or dvd RIP RIP RIP RIP bytes like paper! \Then get the rascals! Scrubbing grimy hardrives... plucking mangled digital bones from clawed digital flesh! \Damn corrupt bits! Blending demo so demo sounds worse than the real demo! \Shiny, sparkling garbage, trawling thru the synths. \Turn me back into ASCII, I am growing weary.\Eeeeeeville. Online piracy's sick toothless grin \Simply ... Sick. \ ...Ahoy! ...Ahoy! \U wouldn't steal a car...\ U wouldn't steal a handbag...");
             rm.addText("Practictioners of for loops and lace-up worlds \lace-up myths, lace-up bodices \laced-up thru opportunistic eyelets of HTML");
             rm.addText("lace-up; dial-up;\ up; up; \loop; loop; \ thru; thru; \'round; 'round; \calibrate; calibrate;\Looping; Looping;\LOOP; LOOP;\ L-A-C-E-U-P L-A-C-E-U-P \the rigging; the rigging;");
 
@@ -486,7 +486,7 @@ if (screen==1) {
               rmResponse.addText("Gather at x . \ Gather in the . \Gather at xx:xx. \Gather , \Gather , \Gathering, 2nite. \Gathering, the songs . \Gathering, the words. \Find x, Found x. \Lace up X. \nite nite nite");
             //8(SEA, SPEECH)
           } else if (mouseY>height/6*5 && mouseX>width/4*3) {
-              rm.addText("Engineering:Chorus \Cross My Heart Survival, \Choral gumption --> sail us --> --> --> \Generating lore --> power a web \The wording of our world \Shiver, Shiver, Shiver, at the thresholds of possibility. \Sail --> the dawn edges of the browser, out of reach of known horizons. \Sail --> gather --> the beyond terrains \Find x in the dawning of the world \, SWELLS! \Bodies --> be sailed; Bodies --> be soiled; \Cross my heart with the axis of the deep \Rougish grins that know, that know, that know");
+              rm.addText("Engineering:Chorus \Cross My Heart 4 Survival, \Choral gumption --> sail us --> --> --> \Generating lore --> power a web \The wording of worlds \Shiver, Shiver, Shiver, at the thresholds of possibility. \Sail --> the dawn edges of the browser, out of reach of known horizons. \Sail --> gather --> the beyond terrains \Find x in the dawning of the worlds \, SWELLS! \Bodies --> be sailed; Bodies --> be soiled; \Cross my heart with the axis of the deep \Rougish grins that know, that know, that know");
               rm.addText("Strategise is to flirt, smirk, thru the eyelets and skin, \ Lacing up longing, and longing, \The flirting with exponential futures... we swoon, we swoon, we swoon, \ Press upon this sea floor synth-pad \To the calling calling calling of the synths, \Find me a dagger, \To the throat of the threshold, \Surface skin tension against the blade, \Swinging cutlasses for the singing of the blade when it meets another; it knows its equal \Scrub, scrub scrub scrub our souls! \Then the decks! \Yearning, for a choir to sing together a myth, \Yearning, it lies on an exponential curve \My, My, My, this stench of nonlinearity... Will not do, Will not do...\Thrill, thrill, thrill in the multiplying of the odds \See, see, the seas possess their own yearning;");
 
               rmResponse.addText("Smirk \Smirk \Smirk \Smirk \Smirk \Smirk! \Steal; \Steal \Steal! Steal! \Steal, Smirk, ");
