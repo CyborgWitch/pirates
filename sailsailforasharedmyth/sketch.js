@@ -384,7 +384,7 @@ if (screen==1) {
 } else if (screen==2) {
     t.display();
     synthGrid();
-    soundLevelMapped = map(soundLevel, 0, 1, 0, 0.05);
+    soundLevelMapped = map(soundLevel, 0, 1, 0, 0.02);
     soundHistory.push(int(soundLevelMapped));
     mouseSpeed = dist(mouseX, mouseY, pmouseX, pmouseY);
     mapMouseSpeed = 5+map(mouseSpeed, 0, width, 0, 10);
