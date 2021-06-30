@@ -161,7 +161,6 @@ var sketchTop = function(p) {
 
     if (p.canvasGrowing) {
         p.push();
-          console.log("arrow");
           p.textFont(p.font2);
           p.textSize(40);
           p.fill(0);
@@ -448,9 +447,6 @@ if (screen==1) {
             rmResponse.addText("Threshold: (x, y)\ Threshold: horizon\ Threshold: skin\ Threshold: sea, sky,\ Threshold: radius\ Threshold: touch\Threshold: song\ Threshold: possibility\ Threshold: body");
           //4(WEB, SPEECH)
         } else if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX>width/4*3) {
-            console.log("4(WEB, SPEECH)");
-            console.log("webSpeechClick");
-
             rm.addText("Web trash, shiny mirages\ Pixel coins in Pixel chests\ Corrupted files and torrents buried \DOWNLOAD the filth! \For the Streams of the Filth \DOWNLOAD the F-I-L-T-H! \DOWNLOAD the eyeliner! \DOWNLOAD the rotting carcass of mp3,4, \Or dvd rip rip rip rip bytes like paper! \Or dvd RIP RIP RIP RIP bytes like paper! \Then get the rascals! Scrubbing grimy hardrives... plucking mangled digital bones from clawed digital flesh! \Damn corrupt bits! Blending demo so demo sounds worse than the real demo! \Shiny, sparkling garbage, trawling thru the synths. \Turn me back into ASCII, I am growing weary.\Eeeeeeville. Online piracy's sick toothless grin \Simply ... Sick. \ ...Ahoy! ...Ahoy! \U wouldn't steal a car...\ U wouldn't steal a handbag...");
             rm.addText("Practictioners of for loops and lace-up worlds \lace-up myths, lace-up bodices \laced-up thru opportunistic eyelets of HTML");
             rm.addText("lace-up; dial-up;\ up; up; \loop; loop; \ thru; thru; \'round; 'round; \calibrate; calibrate;\Looping; Looping;\LOOP; LOOP;\ L-A-C-E-U-P L-A-C-E-U-P \the rigging; the rigging;");
@@ -639,7 +635,6 @@ function mouseBottom() {
     //clear array of tokens everytime mouse is clicked, if clicked NOT on grid, then nothing new is pushed into the call/response generated array therefore nothing in the currentTokenise array therefore clearSeas:synthpad interlude
     currentTokenise = [];
     concordance = [];
-    console.log("CLICK");
 
 if (screen==1){
   //set Sail button to progress to screen 2
@@ -659,7 +654,6 @@ if (screen==1){
     sketchTop.UserEnter = false;
     //grow canvas on every new call and response pair
     if (sketchTop.textXLength>=width-sketchTop.textBoxWidth && odd==false) {
-        console.log("textXLength has exceeded");
         if (growSwitch<1) {
           if (growSwitch==0) {
               growCounter++;
@@ -676,7 +670,6 @@ if (screen==1){
 
     //if CLICKED INSIDE THE GRID, check for which eighth, check if odd/even/call response
     if (mouseY>height/3*2-10) {
-        console.log("————> clicked on grid");
         onGridClick = true;
         clearSeasClick = false;
         clearSeasON = false;
@@ -689,7 +682,6 @@ if (screen==1){
                 seaSongClick = false;
                 seaSpeechClick = false;
                 webSongClick = true;
-                //console.log("mouse clicked into webSong:"+webSongClick);
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Web, Song): ");
                   } else if (odd==true) {
@@ -701,7 +693,6 @@ if (screen==1){
                 seaSongClick = false;
                 seaSpeechClick = false;
                 webSpeechClick = true;
-                //console.log("mouse clicked into webSpeech:"+webSpeechClick);
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Web, Speech): ");
                   } else if (odd==true) {
@@ -716,7 +707,6 @@ if (screen==1){
                 webSpeechClick = false;
                 seaSpeechClick = false;
                 seaSongClick = true;
-                //console.log("mouse clicked into seaSong"+seaSongClick);
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Sea, Song): ");
                   } else if (odd==true) {
@@ -728,7 +718,6 @@ if (screen==1){
                 webSpeechClick = false;
                 seaSongClick = false;
                 seaSpeechClick = true;
-                //console.log("mouseClicked into seaSpeech:"+seaSpeechClick);
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Sea, Speech): ");
                   } else if (odd==true) {
@@ -777,7 +766,6 @@ if (screen==1){
 
       //if you have CLICKED OUTSIDE THE GRID; clear the decks.
     } else if (mouseY<height/3*2-10) {
-        console.log("————> clicked off grid");
         onGridClick = false;
         clearSeasClick = true;
 
