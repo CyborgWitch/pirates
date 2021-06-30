@@ -776,7 +776,7 @@ if (screen==1){
             window.location.reload();
             voice.cancel();
             responseVoice.cancel();
-        } else {
+        } else if (mouseX<width-220 || mouseX>width-10 && mouseY<5 || mouseY>40) {
             backToShoreClick = false;
             if (odd==false) {
                 voice.cancel();
