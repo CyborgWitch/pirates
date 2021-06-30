@@ -674,57 +674,53 @@ if (screen==1){
         clearSeasClick = false;
         clearSeasON = false;
 
-        //if clicked on TOP ROW,
-        if (mouseY>height/3*2-10 && mouseY<height/6*5) {
+            //if clicked on TOP ROW,
             //WEB, SONG
-            if (mouseX<width/2) {
+            if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX<width/2) {
+                webSongClick = true;
                 webSpeechClick = false;
                 seaSongClick = false;
                 seaSpeechClick = false;
-                webSongClick = true;
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Web, Song): ");
                   } else if (odd==true) {
                     sketchTop.webSeaResponseGenerated.push("(Web, Song): ");
                   }
               //WEB, SPEECH
-            } else if (mouseX>width/2) {
+            } else if (mouseY>height/3*2-10 && mouseY<height/6*5 && mouseX>width/2) {
+                webSpeechClick = true;
                 webSongClick = false;
                 seaSongClick = false;
                 seaSpeechClick = false;
-                webSpeechClick = true;
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Web, Speech): ");
                   } else if (odd==true) {
                     sketchTop.webSeaResponseGenerated.push("(Web, Speech): ");
                   }
-            }
-          //if clicked on BOTTOM ROW,
-        } else if (mouseY>height/6*5) {
-            //SEA, SONG
-            if (mouseX<width/2) {
+              //if clicked on BOTTOM ROW,
+              //SEA, SONG
+            } else if (mouseY>height/6*5 && mouseX<width/2) {
+                seaSongClick = true;
                 webSongClick = false;
                 webSpeechClick = false;
                 seaSpeechClick = false;
-                seaSongClick = true;
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Sea, Song): ");
                   } else if (odd==true) {
                     sketchTop.webSeaResponseGenerated.push("(Sea, Song): ");
                   }
-              //SEA, SPEECH
-            } else if (mouseX>width/2) {
+               //SEA, SPEECH
+             } else if (mouseY>height/6*5 && mouseX>width/2) {
+                seaSpeechClick = true;
                 webSongClick = false;
                 webSpeechClick = false;
                 seaSongClick = false;
-                seaSpeechClick = true;
                   if (odd==false) {
                     sketchTop.webSeaCallGenerated.push("(Sea, Speech): ");
                   } else if (odd==true) {
                     sketchTop.webSeaResponseGenerated.push("(Sea, Speech): ");
                   }
               }
-        }
 
       //changing speed for singing beebopps
       if (mouseX<width/2) {
@@ -768,7 +764,6 @@ if (screen==1){
     } else if (mouseY<height/3*2-10) {
         onGridClick = false;
         clearSeasClick = true;
-
         seaSpeechClick = false;
         webSongClick = false;
         webSpeechClick = false;
@@ -812,6 +807,8 @@ if (screen==1){
     }
 
   }
+
+  
 }
 
 
