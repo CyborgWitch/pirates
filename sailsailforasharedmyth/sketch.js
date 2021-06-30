@@ -391,7 +391,7 @@ if (screen==1) {
     mapVoiceSpeed = map(mouseSpeed, 0, width, 0.5, 1);
     increment = 0.001+soundLevelMapped;
     start = map(mapMouseSpeed, 5, 15, 70, 75);
-    waveFrameRate = 10;
+    waveFrameRate = 5;
     noiseMultiply = map(mouseSpeed, 0, width, 50, 100);
 
     push();
