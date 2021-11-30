@@ -196,7 +196,7 @@ let mapVoiceSpeed;
 
 //MIC listen, wave variables & array
 let mic;
-let start = 20;
+let start = 10;
 let increment = 0.001;
 let xOff, mapMouseSpeed;
 let mapMouseSpeed2;
@@ -204,7 +204,7 @@ let soundLevel = 0;
 let soundLevelMapped;
 let soundHistory = [];
 let noiseMultiply = 0;
-let waveFrameRate = 5;
+let waveFrameRate = 8;
 
 //quadrant checks
 let onGrid = false;
