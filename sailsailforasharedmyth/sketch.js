@@ -259,10 +259,10 @@ function setup() {
   voice = new p5.Speech('Karen');
   voice.onLoad = console.log("onLoad 1");
   voice.setPitch(0);
-  //voice.setVoice(0);
+  voice.setVoice('Karen');
   responseVoice = new p5.Speech('Karen');
   responseVoice.onLoad = console.log("onLoad 2");
-  //responseVoice.setVoice(0);
+  responseVoice.setVoice('Karen');
   responseVoice.setPitch(0);
 
   mic = new p5.AudioIn();
