@@ -256,10 +256,10 @@ function setup() {
   textLeading(74);
   strokeWeight(7.5);
 
-  voice = new p5.Speech('Karen');
-  voice.onLoad = console.log("onLoad 1");
-  voice.setPitch(0);
-  voice.setVoice('Karen');
+//   voice = new p5.Speech('Karen');
+//   voice.onLoad = console.log("onLoad 1");
+//   voice.setPitch(0);
+//   voice.setVoice('Karen');
   responseVoice = new p5.Speech('Karen');
   responseVoice.onLoad = console.log("onLoad 2");
   responseVoice.setVoice('Karen');
@@ -734,14 +734,14 @@ if (screen==1){
       //GENERATING ALTERNATING CALL AND RESPONSE SPEECH + TEXT
       if (odd==false) {
           //generate call
-          voice.cancel();
-          voice.setRate(1);
+          responseVoice.cancel();
+          ressponseVoice.setRate(1);
           if (webSongClick || seaSongClick) {
             sentences = rm.generate(1, {temperature:100, minLength:0, maxLength: 50, allowDuplicates:true});
           } else {
             sentences = rm.generate(1, {temperature:100, minLength:10, maxLength: 100, allowDuplicates:false});
           }
-          voice.speak(sentences);
+          responseVoice.speak(sentences);
           sketchTop.callGenerated.push(sentences);
           currentTokenise.push(RiTa.tokenize(sentences[0]));
           concordance.push(RiTa.concordance(currentTokenise[0]));
@@ -776,15 +776,15 @@ if (screen==1){
             backToShoreClick = true;
             //then refresh the page
             window.location.reload();
-            voice.cancel();
+            responseVoice.cancel();
             responseVoice.cancel();
         } else if (mouseX<width-220 || mouseX>width-10 && mouseY<5 || mouseY>40) {
             backToShoreClick = false;
             if (odd==false) {
-                voice.cancel();
+                responseVoice.cancel();
                 sketchTop.callGenerated.push("The decks --> seafloor synthpad interlude;");
                 sketchTop.webSeaCallGenerated.push("(CLEAR): ");
-                voice.speak("CLEAR: The decks --> seafloor synthpad interlude;");
+                responseVoice.speak("CLEAR: The decks --> seafloor synthpad interlude;");
                 odd=true;
             } else if (odd==true) {
                 responseVoice.cancel();
