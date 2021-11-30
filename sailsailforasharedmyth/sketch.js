@@ -296,7 +296,7 @@ function draw() {
   monoSynth = new p5.MonoSynth();
   monoSynth2 = new p5.MonoSynth();
 
-  voice.listVoices();
+  //voice.listVoices();
   //check where mouseY is
   //mouse is OUTSIDE the grid, web false, sea false
   if (mouseY<height/3*2-10) {
