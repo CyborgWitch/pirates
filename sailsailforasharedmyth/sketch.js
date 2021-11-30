@@ -260,7 +260,7 @@ function setup() {
   voice.onLoad = console.log("onLoad 1");
   voice.setPitch(0);
   //voice.setVoice(0);
-  responseVoice = new p5.Speech("Karen');
+  responseVoice = new p5.Speech('Karen');
   responseVoice.onLoad = console.log("onLoad 2");
   //responseVoice.setVoice(0);
   responseVoice.setPitch(0);
