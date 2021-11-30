@@ -256,11 +256,13 @@ function setup() {
   textLeading(74);
   strokeWeight(7.5);
 
-  voice = new p5.Speech();
+  voice = new p5.Speech('Karen');
+  voice.onLoad = console.log("onLoad 1");
   voice.setPitch(0);
-  voice.setVoice(0);
-  responseVoice = new p5.Speech();
-  responseVoice.setVoice(0);
+  //voice.setVoice(0);
+  responseVoice = new p5.Speech("Karen');
+  responseVoice.onLoad = console.log("onLoad 2");
+  //responseVoice.setVoice(0);
   responseVoice.setPitch(0);
 
   mic = new p5.AudioIn();
