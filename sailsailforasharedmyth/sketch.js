@@ -258,9 +258,9 @@ function setup() {
 
   voice = new p5.Speech();
   voice.setPitch(0);
-  voice.setVoice("Karen");
+  voice.setVoice(0);
   responseVoice = new p5.Speech();
-  responseVoice.setVoice("Karen");
+  responseVoice.setVoice(0);
   responseVoice.setPitch(0);
 
   mic = new p5.AudioIn();
